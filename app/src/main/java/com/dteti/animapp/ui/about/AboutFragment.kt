@@ -12,7 +12,7 @@ import com.dteti.animapp.databinding.FragmentAboutBinding
 
 class AboutFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: AboutViewModel
+    private lateinit var aboutViewModel: AboutViewModel
     private var _binding: FragmentAboutBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,14 +24,14 @@ class AboutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
+        aboutViewModel =
             ViewModelProvider(this).get(AboutViewModel::class.java)
 
         _binding = FragmentAboutBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        aboutViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
