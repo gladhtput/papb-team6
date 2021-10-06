@@ -8,12 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dteti.animapp.databinding.FragmentDashboardBinding
+import com.dteti.animapp.databinding.FragmentFavouriteBinding
 
 class FavouriteFragment : Fragment() {
 
     private lateinit var favouriteViewModel: FavouriteViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentFavouriteBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,7 +27,7 @@ class FavouriteFragment : Fragment() {
         favouriteViewModel =
             ViewModelProvider(this).get(FavouriteViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentFavouriteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
