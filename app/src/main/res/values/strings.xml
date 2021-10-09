@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_about">About</string>
+    <string name="about_desc">AnimApp is an app that recommends random anime and you can add it to your favourite if you like it.</string>
+    <string name="made_by">Made by:</string>
+    <string name="bisma">Firdaus B S (19/444051/TK/49247)</string>
+    <string name="gilang">Gilang A P (19/446779/TK/49884)</string>
+    <string name="sofyan">Sofyan H B (19/444072/TK/49268)</string>
 </resources>
