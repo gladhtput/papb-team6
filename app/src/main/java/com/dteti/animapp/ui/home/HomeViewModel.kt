@@ -1,6 +1,8 @@
 package com.dteti.animapp.ui.home
 
 import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,16 +20,20 @@ import kotlinx.coroutines.launch
 class HomeViewModel() : ViewModel() {
     private val service: AnimeService = JikanAnimeService()
 
+    lateinit var searchKeywords: LiveData<String>
+
     private var _animes = MutableLiveData<List<Anime>>()
     val animes: LiveData<List<Anime>> = _animes
 
-    fun applySearchKeywords(keywords: String) {
+    fun search(keywords: String): Boolean {
         viewModelScope.launch {
             _animes.postValue(service.searchAnime(keywords, 1))
         }
+
+        return false
     }
 
     init {
-        applySearchKeywords("")
+        search("")
     }
 }
