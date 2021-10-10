@@ -1,10 +1,7 @@
 package com.dteti.animapp.services.animeservice
 
-import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.SocketTimeoutException
-import kotlin.random.Random
 
 class JikanAnimeService : AnimeService {
     private val jikanApi = Retrofit.Builder()
@@ -14,33 +11,15 @@ class JikanAnimeService : AnimeService {
         .create(JikanApi::class.java)
 
     override suspend fun getAnimeByIdAsync(id: Int): Anime? {
-        val response = jikanApi.getAnimeByIdAsync(id)
+        val response = jikanApi.getAnimeById(id)
 
         return response.body()
     }
 
-    override suspend fun getRandomAnime(): Anime? {
-        do {
-            try {
-                val id = Random.nextInt(0, 17100)
+    override suspend fun searchAnime(keywords: String, page: Int): List<Anime> {
+        val response = jikanApi.searchAnime(keywords, page)
+        val body = response.body()
 
-                Log.i("JikanAnimeService", "Fetching anime with the ID $id.")
-
-                val anime = jikanApi.getAnimeByIdAsync(id).body()
-                if (anime != null && isSafeForWork(anime)) {
-                    return anime
-                } else if (anime == null) {
-                    return null
-                }
-            } catch (err: SocketTimeoutException) {
-                Log.i("Jikan", "Anime fetching timed out. Retrying...")
-            }
-        } while(true)
-    }
-
-    private fun isSafeForWork(anime: Anime): Boolean {
-        val bannedRatings = setOf("Rx - Hentai")
-
-        return bannedRatings.contains(anime.rating)
+        return body?.results ?: emptyList()
     }
 }
