@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +13,13 @@ import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.services.animeservice.Anime
 
-class AnimeAdapter(private val animes: LiveData<List<Anime>>): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+    init {
+        animes.observe(lifecycleOwner, {
+            notifyDataSetChanged()
+        })
+    }
+
     inner class AnimeViewHolder(private val binding: AnimeListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Anime) = with(binding) {
             anime = item

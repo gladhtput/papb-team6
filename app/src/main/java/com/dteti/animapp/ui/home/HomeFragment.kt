@@ -31,11 +31,7 @@ class HomeFragment : Fragment() {
             this?.lifecycleOwner = this@HomeFragment
             this?.viewModel = homeViewModel
 
-            val animeAdapter = AnimeAdapter(homeViewModel.animes)
-
-            homeViewModel.animes.observe(viewLifecycleOwner, {
-                animeAdapter.notifyDataSetChanged()
-            })
+            val animeAdapter = AnimeAdapter(homeViewModel.animes, viewLifecycleOwner)
 
             this?.rvAnimeList.apply {
                 this?.layoutManager = LinearLayoutManager(context)
