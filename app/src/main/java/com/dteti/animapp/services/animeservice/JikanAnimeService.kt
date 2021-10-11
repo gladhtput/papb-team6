@@ -10,8 +10,8 @@ class JikanAnimeService : AnimeService {
         .build()
         .create(JikanApi::class.java)
 
-    override suspend fun getAnimeByIdAsync(id: Int): Anime? {
-        val response = jikanApi.getAnimeById(id)
+    override suspend fun getAnimeDetailsById(id: Int): AnimeDetails? {
+        val response = jikanApi.getAnimeDetailsById(id)
 
         return response.body()
     }

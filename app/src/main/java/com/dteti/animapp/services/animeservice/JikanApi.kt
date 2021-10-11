@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface JikanApi {
     @GET("anime/{id}")
-    suspend fun getAnimeById(@Path("id") id: Int): Response<Anime>
+    suspend fun getAnimeDetailsById(@Path("id") id: Int): Response<AnimeDetails>
 
     @GET("search/anime")
     suspend fun searchAnime(
