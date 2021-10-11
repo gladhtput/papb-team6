@@ -20,8 +20,8 @@ class AnimeDetailsViewModel: ViewModel() {
     private val _rating = MutableLiveData<String>()
     val rating: LiveData<String> = _rating
 
-    private val _episodeCount = MutableLiveData<String>()
-    val episodeCount: LiveData<String> = _episodeCount
+    private val _episodeCount = MutableLiveData<Int>()
+    val episodeCount: LiveData<Int> = _episodeCount
 
     private val _airingStatus = MutableLiveData<String>()
     val airingStatus: LiveData<String> = _airingStatus
@@ -29,9 +29,20 @@ class AnimeDetailsViewModel: ViewModel() {
     private val _synopsis = MutableLiveData<String>()
     val synopsis: LiveData<String> = _synopsis
 
-    private fun loadAnimeDetails() {
+    private fun loadAnimeDetails(id: Int) {
         viewModelScope.launch {
+            val animeDetails = service.getAnimeDetailsById(id)
 
+            if (animeDetails != null) {
+                _posterImageUrl.postValue(animeDetails.mainPictureUrl)
+                _title.postValue(animeDetails.title)
+                _rating.postValue(animeDetails.ageRating)
+                _episodeCount.postValue(animeDetails.episodeCount)
+                _airingStatus.postValue(animeDetails.airingStatus)
+                _synopsis.postValue(animeDetails.synopsis)
+            } else {
+                // TODO: Show a toast or something.
+            }
         }
     }
 }
