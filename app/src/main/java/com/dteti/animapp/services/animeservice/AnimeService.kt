@@ -1,7 +1,7 @@
 package com.dteti.animapp.services.animeservice
 
 interface AnimeService {
-    suspend fun getAnimeByIdAsync(id: Int): Anime?
+    suspend fun getAnimeDetailsById(id: Int): AnimeDetails?
     suspend fun searchAnime(
         keywords: String,
         page: Int
