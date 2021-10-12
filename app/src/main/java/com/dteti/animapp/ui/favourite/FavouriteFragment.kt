@@ -1,5 +1,6 @@
 package com.dteti.animapp.ui.favourite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dteti.animapp.DetailActivity
+import com.dteti.animapp.common.recyclerviewadapter.AnimeAdapter
 import com.dteti.animapp.common.recyclerviewadapter.FavoriteAdapter
 import com.dteti.animapp.databinding.FragmentFavouriteBinding
+import com.dteti.animapp.services.animeservice.Anime
 import java.util.ArrayList
 
 class FavouriteFragment : Fragment() {
@@ -37,7 +41,15 @@ class FavouriteFragment : Fragment() {
             this?.lifecycleOwner = this@FavouriteFragment
             this?.viewModel = favouriteViewModel
 
-            val favoriteAdapter = FavoriteAdapter(favouriteViewModel.animes,viewLifecycleOwner)
+            val favoriteAdapter = FavoriteAdapter(
+                favouriteViewModel.animes,
+                viewLifecycleOwner,
+                object: FavoriteAdapter.OnItemClickListener {
+                    override fun onItemClick(anime: Anime) {
+                        openAnimeDetails(anime.id)
+                    }
+                }
+            )
 
             this?.favoriteList.apply {
                 this?.layoutManager = GridLayoutManager(context,3,RecyclerView.VERTICAL,false)
@@ -49,7 +61,12 @@ class FavouriteFragment : Fragment() {
         return root
     }
 
-
+    private fun openAnimeDetails(animeId: String) {
+        val openDetailsIntent = Intent(context, DetailActivity::class.java).apply {
+            putExtra("animeId", animeId)
+        }
+        startActivity(openDetailsIntent)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

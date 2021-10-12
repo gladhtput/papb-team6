@@ -14,16 +14,28 @@ import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.databinding.FavoriteItemBinding
 import com.dteti.animapp.services.animeservice.Anime
 
-class FavoriteAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner): RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter(
+    private val animes: LiveData<List<Anime>>,
+    lifecycleOwner: LifecycleOwner,
+    private val onClickListener: FavoriteAdapter.OnItemClickListener
+    ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     init {
         animes.observe(lifecycleOwner, {
             notifyDataSetChanged()
         })
     }
 
-    inner class FavoriteViewHolder(private val binding: FavoriteItemBinding): RecyclerView.ViewHolder(binding.root) {
+    interface OnItemClickListener {
+        fun onItemClick(anime: Anime)
+    }
+
+    inner class FavoriteViewHolder(private val binding: FavoriteItemBinding, private val listener: FavoriteAdapter.OnItemClickListener): RecyclerView.ViewHolder(binding.root) {
         fun bind(item:Anime)= with(binding) {
             anime = item
+
+            itemView.setOnClickListener(View.OnClickListener {
+                listener.onItemClick(item)
+            })
         }
     }
 
@@ -35,7 +47,7 @@ class FavoriteAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner:
             parent,
             false
         )
-        return FavoriteViewHolder(binding)
+        return FavoriteViewHolder(binding, onClickListener)
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
