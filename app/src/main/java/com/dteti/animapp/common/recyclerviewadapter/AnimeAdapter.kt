@@ -13,16 +13,24 @@ import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.services.animeservice.Anime
 
-class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner, val onClickListener: OnItemClickListener): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
     init {
         animes.observe(lifecycleOwner, {
             notifyDataSetChanged()
         })
     }
 
-    inner class AnimeViewHolder(private val binding: AnimeListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    interface OnItemClickListener {
+        fun onItemClick(anime: Anime)
+    }
+
+    inner class AnimeViewHolder(private val binding: AnimeListItemBinding, val listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Anime) = with(binding) {
             anime = item
+
+            itemView.setOnClickListener(View.OnClickListener {
+                listener.onItemClick(item)
+            })
         }
     }
 
@@ -40,7 +48,7 @@ class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: Li
             parent,
             false
         )
-        return AnimeViewHolder(binding)
+        return AnimeViewHolder(binding, onClickListener)
     }
 
     override fun getItemCount(): Int = animes.value?.count() ?: 5
