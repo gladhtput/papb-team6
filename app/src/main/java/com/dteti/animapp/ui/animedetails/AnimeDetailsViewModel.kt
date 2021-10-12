@@ -29,6 +29,10 @@ class AnimeDetailsViewModel: ViewModel() {
     private val _synopsis = MutableLiveData<String>()
     val synopsis: LiveData<String> = _synopsis
 
+    fun setAnime(id: String) {
+        loadAnimeDetails(id.toInt())
+    }
+
     private fun loadAnimeDetails(id: Int) {
         viewModelScope.launch {
             val animeDetails = service.getAnimeDetailsById(id)

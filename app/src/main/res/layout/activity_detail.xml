@@ -1,151 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.dteti.animapp.ui.animedetails.AnimeDetailsViewModel" />
+    </data>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".DetailActivity">
 
-        <ImageView
-            android:id="@+id/iv_poster"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/ic_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp" />
+            <ImageView
+                android:id="@+id/iv_poster"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/ic_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:imageFromUrl="@{viewModel.posterImageUrl}"/>
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/iv_poster"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:srcCompat="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_stats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:outlineSpotShadowColor="@color/black"
-            android:outlineAmbientShadowColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@{viewModel.title}"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/iv_poster"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:outlineSpotShadowColor="@color/black"
+                android:outlineAmbientShadowColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="127dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Episodes"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="128dp"
-                        android:layout_height="wrap_content"
-                        android:text="Rating"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
+                        <TextView
+                            android:layout_width="127dp"
+                            android:layout_height="wrap_content"
+                            android:text="Episodes"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
 
-                    <TextView
-                        android:layout_width="127dp"
+                        <TextView
+                            android:layout_width="128dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rating"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:layout_width="127dp"
+                            android:layout_height="wrap_content"
+                            android:text="Status"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Status"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_episodes"
+                            android:layout_width="127dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.episodeCount.toString()}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/tv_rating"
+                            android:layout_width="128dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.rating}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="127dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.airingStatus}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_syno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Synopsis"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/cv_stats"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/tv_episodes"
-                        android:layout_width="127dp"
-                        android:layout_height="wrap_content"
-                        android:text="Unknown"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/tv_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.synopsis}"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_syno"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textColor="@color/black"/>
 
-                    <TextView
-                        android:id="@+id/tv_rating"
-                        android:layout_width="128dp"
-                        android:layout_height="wrap_content"
-                        android:text="-/10"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:id="@+id/tv_status"
-                        android:layout_width="127dp"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tv_syno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Synopsis"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/cv_stats"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tv_synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No synopsis"
-            android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_syno"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:textColor="@color/black"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

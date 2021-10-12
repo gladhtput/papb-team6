@@ -13,7 +13,7 @@ import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.services.animeservice.Anime
 
-class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner, val onClickListener: OnItemClickListener): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+class AnimeAdapter(private val animes: LiveData<List<Anime>>, lifecycleOwner: LifecycleOwner, private val onClickListener: OnItemClickListener): RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
     init {
         animes.observe(lifecycleOwner, {
             notifyDataSetChanged()
