@@ -5,15 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dteti.animapp.DetailActivity
+import com.dteti.animapp.R
 import com.dteti.animapp.common.recyclerviewadapter.AnimeAdapter
 import com.dteti.animapp.databinding.FragmentHomeBinding
 import com.dteti.animapp.dto.AnimeSummary
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -51,7 +61,26 @@ class HomeFragment : Fragment() {
             }
         }
 
+        homeViewModel.mainOverlayVisible.observe(viewLifecycleOwner, {
+            view?.findViewById<ConstraintLayout>(R.id.clHome)?.visibility = if (it) View.VISIBLE else View.GONE
+        })
+        homeViewModel.noConnectionOverlayVisible.observe(viewLifecycleOwner, {
+            view?.findViewById<ConstraintLayout>(R.id.clNoConnection)?.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
         return root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        view?.findViewById<Button>(R.id.btnHomeToFavorite)?.setOnClickListener {
+            navigateToFavorite()
+        }
+    }
+
+    private fun navigateToFavorite() {
+        findNavController().navigate(R.id.home_to_favorite)
     }
 
     private fun openAnimeDetails(animeId: String) {
