@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dteti.animapp.dto.UriType
 
 class BindingAdapters {
@@ -11,13 +12,10 @@ class BindingAdapters {
         @BindingAdapter("imageUri", "imageUriType", requireAll = true)
         @JvmStatic
         fun loadImage(view: ImageView, uri: String?, type: UriType?) {
-            if (type == UriType.URL) {
-                Glide.with(view.context)
-                    .load(uri)
-                    .into(view)
-            } else if (type == UriType.PATH) {
-                // TODO: load image from app-specific storage.
-            }
+            Glide.with(view.context)
+                .load(uri)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(view)
         }
 
         @BindingAdapter("activeTint")

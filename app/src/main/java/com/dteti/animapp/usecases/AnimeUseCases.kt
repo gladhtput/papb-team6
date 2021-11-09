@@ -1,11 +1,16 @@
 package com.dteti.animapp.usecases
 
+import android.content.Context
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.dteti.animapp.common.exceptions.NoAnimeServiceException
 import com.dteti.animapp.dto.AnimeDetails
 import com.dteti.animapp.dto.AnimeSummary
 import com.dteti.animapp.dto.UriType
 import com.dteti.animapp.services.animeapiservice.AnimeApiService
 import com.dteti.animapp.services.persistenceservice.AnimePersistenceService
 import com.dteti.animapp.services.persistenceservice.room.entities.Anime
+import java.lang.Exception
 import javax.inject.Inject
 
 class AnimeUseCases @Inject constructor(
@@ -13,17 +18,21 @@ class AnimeUseCases @Inject constructor(
     private val persistenceService: AnimePersistenceService) {
 
     suspend fun searchAnime(keywords: String, page: Int): List<AnimeSummary> {
-        val animes = apiService.searchAnime(keywords, page)
+        try {
+            val animes = apiService.searchAnime(keywords, page)
 
-        return animes.map {
-            AnimeSummary(
-                it.id.toInt(),
-                it.mainPictureUrl,
-                UriType.URL,
-                it.score,
-                it.title,
-                it.synopsis
-            )
+            return animes.map {
+                AnimeSummary(
+                    it.id.toInt(),
+                    it.mainPictureUrl,
+                    UriType.URL,
+                    it.score,
+                    it.title,
+                    it.synopsis
+                )
+            }
+        } catch(err: Exception) {
+            throw NoAnimeServiceException()
         }
     }
 
@@ -69,7 +78,7 @@ class AnimeUseCases @Inject constructor(
                 AnimeDetails(
                     persistedAnime.id,
                     persistedAnime.mainPicturePath,
-                    UriType.URL,
+                    UriType.PATH,
                     persistedAnime.title,
                     persistedAnime.score,
                     persistedAnime.ageRating,
@@ -93,7 +102,7 @@ class AnimeUseCases @Inject constructor(
             if (fetchedAnime != null) {
                 persistenceService.persistAnime(Anime(
                     fetchedAnime.id.toInt(),
-                    "",
+                    fetchedAnime.mainPictureUrl,
                     fetchedAnime.title,
                     fetchedAnime.score,
                     fetchedAnime.ageRating,
