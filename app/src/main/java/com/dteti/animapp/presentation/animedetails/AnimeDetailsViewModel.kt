@@ -5,15 +5,21 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.room.Room
 import com.dteti.animapp.dto.UriType
+import com.dteti.animapp.services.animeapiservice.AnimeApiService
 import com.dteti.animapp.services.persistenceservice.room.AnimAppDatabase
 import com.dteti.animapp.usecases.AnimeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AnimeDetailsViewModel @Inject constructor(private val useCases: AnimeUseCases): ViewModel() {
+class AnimeDetailsViewModel @Inject constructor(
+    private val useCases: AnimeUseCases,
+    private val animeApiService: AnimeApiService): ViewModel() {
+
     private var _animeId: Int? = null
     var animeId: Int? = _animeId
         set(value) {
@@ -22,6 +28,8 @@ class AnimeDetailsViewModel @Inject constructor(private val useCases: AnimeUseCa
                 _animeId = value
             }
         }
+
+    var onBackPressed: (() -> Unit)? = null
 
     private val _posterImageUri = MutableLiveData<String>()
     val posterImageUri: LiveData<String> = _posterImageUri
@@ -78,6 +86,12 @@ class AnimeDetailsViewModel @Inject constructor(private val useCases: AnimeUseCa
         viewModelScope.launch(Dispatchers.IO) {
             useCases.setFavorite(_animeId!!, _isFavorite.value!!)
             Log.d("AnimeDetailsViewModel", "Favorite status committed.")
+
+            if (!animeApiService.isAvailable()) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    onBackPressed?.invoke()
+                }
+            }
         }
     }
 }

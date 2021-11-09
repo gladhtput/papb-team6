@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.dteti.animapp.databinding.ActivityDetailBinding
 import com.dteti.animapp.presentation.animedetails.AnimeDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -25,17 +26,15 @@ class DetailActivity : AppCompatActivity() {
             this.viewModel = detailViewModel
         }
 
+        detailViewModel.onBackPressed = {
+            onBackPressed()
+        }
+
         val backButton = findViewById<ImageView>(R.id.iv_back)
         backButton.setOnClickListener {
             onBackPressed()
         }
 
         detailViewModel.animeId = (intent.getStringExtra("animeId") ?: "0").toInt()
-    }
-
-    override fun onDestroy() {
-        detailViewModel.commitFavorite()
-
-        super.onDestroy()
     }
 }

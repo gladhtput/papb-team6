@@ -24,7 +24,7 @@ class BindingAdapters {
             if (isActive != null && isActive) {
                 view.setColorFilter(Color.RED)
             } else {
-                view.clearColorFilter()
+                view.setColorFilter(Color.WHITE)
             }
         }
     }

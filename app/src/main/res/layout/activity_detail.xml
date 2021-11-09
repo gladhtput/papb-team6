@@ -17,6 +17,23 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/iv_posterBackground"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="1"
+                android:scaleType="centerCrop"
+                android:tint="#88000000"
+                app:imageUri="@{viewModel.posterImageUri}"
+                app:imageUriType="@{viewModel.posterImageUriType}"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/iv_poster"
+                app:layout_constraintTop_toTopOf="@+id/iv_poster"
+                app:layout_constraintVertical_bias="0.0"
+                tools:srcCompat="@drawable/ic_image" />
+
+            <ImageView
                 android:id="@+id/iv_poster"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -32,11 +49,12 @@
                 android:id="@+id/iv_back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_back"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:tint="#FFFFFF"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp" />
+                app:srcCompat="@drawable/ic_back" />
 
             <ImageView
                 android:id="@+id/iv_favorite"
@@ -44,11 +62,12 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:onClick="@{() -> viewModel.toggleFavorite()}"
+                android:tint="#FFFFFF"
+                app:activeTint="@{viewModel.isFavorite}"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
                 app:layout_constraintEnd_toEndOf="@+id/iv_poster"
-                app:srcCompat="@drawable/ic_favorite"
-                app:activeTint="@{viewModel.isFavorite}"
-                android:onClick="@{() -> viewModel.toggleFavorite()}"/>
+                app:srcCompat="@drawable/ic_favorite" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -92,21 +111,27 @@
                             android:layout_height="wrap_content"
                             android:text="Episodes"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="128dp"
                             android:layout_height="wrap_content"
                             android:text="Rating"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="127dp"
                             android:layout_height="wrap_content"
                             android:text="Status"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -120,7 +145,8 @@
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.episodeCount.toString()}"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_rating"
@@ -128,7 +154,8 @@
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.rating}"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_status"
@@ -136,7 +163,8 @@
                             android:layout_height="wrap_content"
                             android:text="@{viewModel.airingStatus}"
                             android:textAlignment="center"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -146,27 +174,28 @@
                 android:id="@+id/tv_syno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Synopsis"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/cv_stats"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
-                android:textColor="@color/black" />
+                android:layout_marginTop="10dp"
+                android:text="Synopsis"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_stats" />
 
             <TextView
                 android:id="@+id/tv_synopsis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.synopsis}"
-                android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_syno"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:textColor="@color/black"/>
+                android:text="@{viewModel.synopsis}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_syno" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
