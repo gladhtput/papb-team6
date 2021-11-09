@@ -1,26 +1,25 @@
-package com.dteti.animapp.ui.favourite
+package com.dteti.animapp.presentation.favourite
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dteti.animapp.DetailActivity
-import com.dteti.animapp.common.recyclerviewadapter.AnimeAdapter
 import com.dteti.animapp.common.recyclerviewadapter.FavoriteAdapter
 import com.dteti.animapp.databinding.FragmentFavouriteBinding
-import com.dteti.animapp.services.animeservice.Anime
-import java.util.ArrayList
+import com.dteti.animapp.dto.AnimeSummary
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
 
-    private lateinit var favouriteViewModel: FavouriteViewModel
+    private val favouriteViewModel: FavouriteViewModel by viewModels()
     private var _binding: FragmentFavouriteBinding? = null
 
     // This property is only valid between onCreateView and
@@ -32,21 +31,20 @@ class FavouriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        favouriteViewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
+        favouriteViewModel
 
         _binding = FragmentFavouriteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         _binding.apply {
-            this?.lifecycleOwner = this@FavouriteFragment
             this?.viewModel = favouriteViewModel
 
             val favoriteAdapter = FavoriteAdapter(
                 favouriteViewModel.animes,
                 viewLifecycleOwner,
                 object: FavoriteAdapter.OnItemClickListener {
-                    override fun onItemClick(anime: Anime) {
-                        openAnimeDetails(anime.id)
+                    override fun onItemClick(anime: AnimeSummary) {
+                        openAnimeDetails(anime.id.toString())
                     }
                 }
             )
@@ -59,6 +57,12 @@ class FavouriteFragment : Fragment() {
 
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        favouriteViewModel.loadFavoriteAnimes()
     }
 
     private fun openAnimeDetails(animeId: String) {

@@ -3,23 +3,26 @@ package com.dteti.animapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.dteti.animapp.databinding.ActivityDetailBinding
-import com.dteti.animapp.ui.animedetails.AnimeDetailsViewModel
+import com.dteti.animapp.presentation.animedetails.AnimeDetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
+    private val detailViewModel: AnimeDetailsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
 
-        val viewModel = ViewModelProvider(this).get(AnimeDetailsViewModel::class.java)
+        setContentView(R.layout.activity_detail)
 
         val binding: ActivityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
 
         binding.apply {
             lifecycleOwner = this@DetailActivity
-            this.viewModel = viewModel
+            this.viewModel = detailViewModel
         }
 
         val backButton = findViewById<ImageView>(R.id.iv_back)
@@ -27,6 +30,12 @@ class DetailActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        viewModel.setAnime(intent.getStringExtra("animeId") ?: "0")
+        detailViewModel.animeId = (intent.getStringExtra("animeId") ?: "0").toInt()
+    }
+
+    override fun onDestroy() {
+        detailViewModel.commitFavorite()
+
+        super.onDestroy()
     }
 }

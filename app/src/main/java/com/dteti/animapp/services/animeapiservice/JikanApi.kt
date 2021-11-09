@@ -1,6 +1,8 @@
-package com.dteti.animapp.services.animeservice
+package com.dteti.animapp.services.animeapiservice
 
-import com.dteti.animapp.services.animeservice.Anime
+import com.dteti.animapp.services.animeapiservice.models.Anime
+import com.dteti.animapp.services.animeapiservice.models.AnimeDetails
+import com.dteti.animapp.services.animeapiservice.models.AnimeSearchResults
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,6 +19,7 @@ interface JikanApi {
         @Query("genre") genre: Int = 12,
         @Query("genre_exclude") genreExclude: Int = 1,
         @Query("limit") limit: Int = 100,
-        @Query("order_by") sortBy: String = "score"
-    ) : Response<AnimeSearchResult>
+        @Query("order_by") orderBy: String = "members",
+        @Query("sort") sort: String = "desc"
+    ) : Response<AnimeSearchResults>
 }

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dteti.animapp.ui.animedetails.AnimeDetailsViewModel" />
+            type="com.dteti.animapp.presentation.animedetails.AnimeDetailsViewModel" />
     </data>
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,8 @@
                 android:id="@+id/iv_poster"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                app:imageFromUrl="@{viewModel.posterImageUrl}"
+                app:imageUri="@{viewModel.posterImageUri}"
+                app:imageUriType="@{viewModel.posterImageUriType}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,9 @@
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
                 app:layout_constraintEnd_toEndOf="@+id/iv_poster"
-                app:srcCompat="@drawable/ic_favorite" />
+                app:srcCompat="@drawable/ic_favorite"
+                app:activeTint="@{viewModel.isFavorite}"
+                android:onClick="@{() -> viewModel.toggleFavorite()}"/>
 
             <TextView
                 android:id="@+id/tv_title"

@@ -1,4 +1,4 @@
-package com.dteti.animapp.ui.home
+package com.dteti.animapp.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dteti.animapp.DetailActivity
 import com.dteti.animapp.common.recyclerviewadapter.AnimeAdapter
 import com.dteti.animapp.databinding.FragmentHomeBinding
-import com.dteti.animapp.services.animeservice.Anime
+import com.dteti.animapp.dto.AnimeSummary
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
@@ -25,21 +27,20 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         _binding.apply {
-            this?.lifecycleOwner = this@HomeFragment
             this?.viewModel = homeViewModel
 
             val animeAdapter = AnimeAdapter(
                 homeViewModel.animes,
                 viewLifecycleOwner,
                 object: AnimeAdapter.OnItemClickListener {
-                    override fun onItemClick(anime: Anime) {
-                        openAnimeDetails(anime.id)
+                    override fun onItemClick(anime: AnimeSummary) {
+                        openAnimeDetails(anime.id.toString())
                     }
                 }
             )

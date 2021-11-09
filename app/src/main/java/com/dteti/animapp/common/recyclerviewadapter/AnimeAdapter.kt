@@ -6,15 +6,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
-import com.dteti.animapp.services.animeservice.Anime
+import com.dteti.animapp.dto.AnimeSummary
 
 class AnimeAdapter(
-    private val animes: LiveData<List<Anime>>,
+    private val animes: LiveData<List<AnimeSummary>>,
     lifecycleOwner: LifecycleOwner,
     private val onClickListener: OnItemClickListener
     ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
@@ -25,11 +23,11 @@ class AnimeAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(anime: Anime)
+        fun onItemClick(anime: AnimeSummary)
     }
 
     inner class AnimeViewHolder(private val binding: AnimeListItemBinding, private val listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Anime) = with(binding) {
+        fun bind(item: AnimeSummary) = with(binding) {
             anime = item
 
             itemView.setOnClickListener(View.OnClickListener {

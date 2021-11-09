@@ -4,7 +4,7 @@
     <data>
         <variable
             name="anime"
-            type="com.dteti.animapp.services.animeservice.Anime" />
+            type="com.dteti.animapp.dto.AnimeSummary" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,7 +25,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="Anime poster"
-                app:imageFromUrl="@{anime.mainPictureUrl}"/>
+                app:imageUri="@{anime.mainPictureUri}"
+                app:imageUriType="@{anime.mainPictureUriType}"/>
 
             <TextView
                 android:id="@+id/textView"

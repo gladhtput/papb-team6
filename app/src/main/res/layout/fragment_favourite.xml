@@ -5,12 +5,12 @@
     <data>
         <variable
             name="viewModel"
-            type="com.dteti.animapp.ui.favourite.FavouriteViewModel" />
+            type="com.dteti.animapp.presentation.favourite.FavouriteViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.favourite.FavouriteFragment">
+        tools:context=".presentation.favourite.FavouriteFragment">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"

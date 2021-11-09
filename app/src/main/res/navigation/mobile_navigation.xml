@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.dteti.animapp.ui.home.HomeFragment"
+        android:name="com.dteti.animapp.presentation.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_favourite"
-        android:name="com.dteti.animapp.ui.favourite.FavouriteFragment"
+        android:name="com.dteti.animapp.presentation.favourite.FavouriteFragment"
         android:label="@string/title_favourite"
         tools:layout="@layout/fragment_favourite" />
 
     <fragment
         android:id="@+id/navigation_about"
-        android:name="com.dteti.animapp.ui.about.AboutFragment"
+        android:name="com.dteti.animapp.presentation.about.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
 </navigation>

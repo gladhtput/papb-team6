@@ -1,4 +1,4 @@
-package com.dteti.animapp.services.animeservice
+package com.dteti.animapp.services.animeapiservice.models
 
 import com.google.gson.annotations.SerializedName
 
