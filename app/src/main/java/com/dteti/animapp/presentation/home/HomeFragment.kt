@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dteti.animapp.DetailActivity
 import com.dteti.animapp.R
 import com.dteti.animapp.common.recyclerviewadapter.AnimeAdapter
@@ -66,6 +67,10 @@ class HomeFragment : Fragment() {
         })
         homeViewModel.noConnectionOverlayVisible.observe(viewLifecycleOwner, {
             view?.findViewById<ConstraintLayout>(R.id.clNoConnection)?.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner, {
+            view?.findViewById<SwipeRefreshLayout>(R.id.swr_HomeRefresh)?.isRefreshing = it
         })
 
         return root

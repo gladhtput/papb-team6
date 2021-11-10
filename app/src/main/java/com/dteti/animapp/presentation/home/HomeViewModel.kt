@@ -2,10 +2,7 @@ package com.dteti.animapp.presentation.home
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dteti.animapp.dto.AnimeSummary
 import com.dteti.animapp.services.animeapiservice.AnimeApiService
 import com.dteti.animapp.usecases.AnimeUseCases
@@ -24,17 +21,32 @@ class HomeViewModel @Inject constructor(private val animeUseCases: AnimeUseCases
     private var _mainOverlayVisible = MutableLiveData<Boolean>()
     val mainOverlayVisible: LiveData<Boolean> = _mainOverlayVisible
 
+    private var _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private var _keywords = ""
+
     fun search(keywords: String): Boolean {
-        viewModelScope.launch(Dispatchers.Main) {
+        _keywords = keywords
+
+        viewModelScope.launch {
+            _isLoading.value = true
+
             if (animeApiService.isAvailable()) {
                 showMainOverlay()
                 _animes.postValue(animeUseCases.searchAnime(keywords, 1))
             } else {
                 showNoConnectionOverlay()
             }
+
+            _isLoading.value = false
         }
 
         return false
+    }
+
+    fun refresh() {
+        search(_keywords)
     }
 
     fun checkConnection() {
