@@ -1,7 +1,9 @@
 package com.dteti.animapp.common
 
 import android.graphics.Color
+import android.view.View
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy

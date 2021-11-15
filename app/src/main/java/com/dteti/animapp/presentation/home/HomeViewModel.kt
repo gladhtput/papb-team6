@@ -3,17 +3,21 @@ package com.dteti.animapp.presentation.home
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
+import androidx.paging.*
 import com.dteti.animapp.dto.AnimeSummary
+import com.dteti.animapp.repository.AnimePagingSource
 import com.dteti.animapp.services.animeapiservice.AnimeApiService
 import com.dteti.animapp.usecases.AnimeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val animeUseCases: AnimeUseCases, private val animeApiService: AnimeApiService) : ViewModel() {
-    private var _animes = MutableLiveData<List<AnimeSummary>>()
-    val animes: LiveData<List<AnimeSummary>> = _animes
+class HomeViewModel @Inject constructor(
+    private val animeUseCases: AnimeUseCases,
+    private val animeApiService: AnimeApiService
+) : ViewModel() {
 
     private var _noConnectionOverlayVisible = MutableLiveData<Boolean>()
     val noConnectionOverlayVisible: LiveData<Boolean> = _noConnectionOverlayVisible
@@ -26,22 +30,31 @@ class HomeViewModel @Inject constructor(private val animeUseCases: AnimeUseCases
 
     private var _keywords = ""
 
+    private var pagingSource: AnimePagingSource? = null
+    private val pager = Pager(PagingConfig(pageSize = 10)) {
+        val newPagingSource = AnimePagingSource(animeUseCases, _keywords)
+        pagingSource = newPagingSource
+
+        return@Pager newPagingSource
+    }
+    val flow = pager.flow.cachedIn(viewModelScope)
+
+    init {
+        search("")
+    }
+
     fun search(keywords: String): Boolean {
         _keywords = keywords
 
-        viewModelScope.launch {
-            _isLoading.value = true
+        if (animeApiService.isAvailable()) {
+            showMainOverlay()
 
-            if (animeApiService.isAvailable()) {
-                showMainOverlay()
-                _animes.postValue(animeUseCases.searchAnime(keywords, 1))
-            } else {
-                showNoConnectionOverlay()
-            }
-
-            _isLoading.value = false
+            pagingSource?.invalidate()
+        } else {
+            showNoConnectionOverlay()
         }
 
+        _isLoading.value = false
         return false
     }
 
@@ -53,7 +66,7 @@ class HomeViewModel @Inject constructor(private val animeUseCases: AnimeUseCases
         viewModelScope.launch(Dispatchers.Main) {
             if (animeApiService.isAvailable()) {
                 showMainOverlay()
-                search("")
+                refresh()
             }
         }
     }
@@ -66,9 +79,5 @@ class HomeViewModel @Inject constructor(private val animeUseCases: AnimeUseCases
     private fun showMainOverlay() {
         _noConnectionOverlayVisible.postValue(false)
         _mainOverlayVisible.postValue(true)
-    }
-
-    init {
-        search("")
     }
 }

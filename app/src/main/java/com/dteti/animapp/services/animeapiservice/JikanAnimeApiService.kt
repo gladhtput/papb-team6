@@ -3,10 +3,8 @@ package com.dteti.animapp.services.animeapiservice
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.dteti.animapp.services.animeapiservice.models.Anime
 import com.dteti.animapp.services.animeapiservice.models.AnimeDetails
+import com.dteti.animapp.services.animeapiservice.models.AnimeSearchResults
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,7 +21,7 @@ class JikanAnimeApiService(private val context: Context) : AnimeApiService {
         return response.body()
     }
 
-    override suspend fun searchAnime(keywords: String, page: Int): List<Anime> {
+    override suspend fun searchAnime(keywords: String, page: Int): AnimeSearchResults? {
         val response = jikanApi.searchAnime(
             keywords,
             page,
@@ -31,10 +29,10 @@ class JikanAnimeApiService(private val context: Context) : AnimeApiService {
             sort = if (keywords == "") "desc" else "")
         val body = response.body()
 
-        return body?.results ?: emptyList()
+        return body
     }
 
-    override suspend fun isAvailable(): Boolean {
+    override fun isAvailable(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {

@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dteti.animapp.common.exceptions.NoAnimeServiceException
 import com.dteti.animapp.dto.AnimeDetails
+import com.dteti.animapp.dto.AnimeSearchResults
 import com.dteti.animapp.dto.AnimeSummary
 import com.dteti.animapp.dto.UriType
 import com.dteti.animapp.services.animeapiservice.AnimeApiService
@@ -17,18 +18,28 @@ class AnimeUseCases @Inject constructor(
     private val apiService: AnimeApiService,
     private val persistenceService: AnimePersistenceService) {
 
-    suspend fun searchAnime(keywords: String, page: Int): List<AnimeSummary> {
+    suspend fun searchAnime(keywords: String, page: Int): AnimeSearchResults {
         try {
-            val animes = apiService.searchAnime(keywords, page)
+            val searchResults = apiService.searchAnime(keywords, page)
 
-            return animes.map {
-                AnimeSummary(
-                    it.id.toInt(),
-                    it.mainPictureUrl,
-                    UriType.URL,
-                    it.score,
-                    it.title,
-                    it.synopsis
+            return if (searchResults != null) {
+                AnimeSearchResults(
+                    searchResults.results.map {
+                        AnimeSummary(
+                            it.id.toInt(),
+                            it.mainPictureUrl,
+                            UriType.URL,
+                            it.score,
+                            it.title,
+                            it.synopsis
+                        )
+                    },
+                    searchResults.lastPage
+                )
+            } else {
+                AnimeSearchResults(
+                    emptyList(),
+                    0
                 )
             }
         } catch(err: Exception) {
