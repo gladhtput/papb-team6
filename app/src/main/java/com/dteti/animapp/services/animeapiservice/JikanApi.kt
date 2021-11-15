@@ -18,7 +18,7 @@ interface JikanApi {
         @Query("page") page: Int = 1,
         @Query("genre") genre: Int = 12,
         @Query("genre_exclude") genreExclude: Int = 1,
-        @Query("limit") limit: Int = 100,
+        @Query("limit") limit: Int = 10,
         @Query("order_by") orderBy: String = "members",
         @Query("sort") sort: String = "desc"
     ) : Response<AnimeSearchResults>

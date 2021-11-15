@@ -6,52 +6,44 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.paging.LoadStateAdapter
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.dto.AnimeSummary
 
 class AnimeAdapter(
-    private val animes: LiveData<List<AnimeSummary>>,
-    lifecycleOwner: LifecycleOwner,
-    private val onClickListener: OnItemClickListener
-    ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
-    init {
-        animes.observe(lifecycleOwner, {
-            notifyDataSetChanged()
-        })
-    }
+    diffCallback: DiffUtil.ItemCallback<AnimeSummary>,
+    private val onClickListener: (anime: AnimeSummary?) -> Unit
+) : PagingDataAdapter<AnimeSummary, AnimeAdapter.AnimeViewHolder>(diffCallback) {
 
-    interface OnItemClickListener {
-        fun onItemClick(anime: AnimeSummary)
-    }
+    inner class AnimeViewHolder(
+        private val binding: AnimeListItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(anime: AnimeSummary?) {
+            binding.anime = anime
 
-    inner class AnimeViewHolder(private val binding: AnimeListItemBinding, private val listener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: AnimeSummary) = with(binding) {
-            anime = item
-
-            itemView.setOnClickListener(View.OnClickListener {
-                listener.onItemClick(item)
-            })
+            binding.cardviewAnimeListItem.setOnClickListener {
+                onClickListener(anime)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        if (animes.value != null) {
-            holder.bind(animes.value!![position])
-        }
+        val item = getItem(position)
+
+        holder.bind(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<AnimeListItemBinding>(
-            inflater,
-            R.layout.anime_list_item,
+        val binding = AnimeListItemBinding.inflate(
+            LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return AnimeViewHolder(binding, onClickListener)
-    }
 
-    override fun getItemCount(): Int = animes.value?.count() ?: 5
+        return AnimeViewHolder(binding)
+    }
 }
