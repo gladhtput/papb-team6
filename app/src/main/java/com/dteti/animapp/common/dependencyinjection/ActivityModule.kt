@@ -1,6 +1,7 @@
 package com.dteti.animapp.common.dependencyinjection
 
 import com.dteti.animapp.services.animeapiservice.AnimeApiService
+import com.dteti.animapp.services.persistenceservice.AnimePersistenceService
 import com.dteti.animapp.services.persistenceservice.RoomAnimePersistenceService
 import com.dteti.animapp.usecases.AnimeUseCases
 import dagger.Module
@@ -17,7 +18,7 @@ object ActivityModule {
     @Provides
     fun provideAnimeUseCases(
         animeApiService: AnimeApiService,
-        animePersistenceService: RoomAnimePersistenceService
+        animePersistenceService: AnimePersistenceService
     ): AnimeUseCases {
         return AnimeUseCases(animeApiService, animePersistenceService)
     }
