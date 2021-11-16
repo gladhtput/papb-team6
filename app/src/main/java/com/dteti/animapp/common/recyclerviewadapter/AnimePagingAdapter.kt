@@ -1,23 +1,17 @@
 package com.dteti.animapp.common.recyclerviewadapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.dteti.animapp.R
 import com.dteti.animapp.databinding.AnimeListItemBinding
 import com.dteti.animapp.dto.AnimeSummary
 
-class AnimeAdapter(
+class AnimePagingAdapter(
     diffCallback: DiffUtil.ItemCallback<AnimeSummary>,
     private val onClickListener: (anime: AnimeSummary?) -> Unit
-) : PagingDataAdapter<AnimeSummary, AnimeAdapter.AnimeViewHolder>(diffCallback) {
+) : PagingDataAdapter<AnimeSummary, AnimePagingAdapter.AnimeViewHolder>(diffCallback) {
 
     inner class AnimeViewHolder(
         private val binding: AnimeListItemBinding
