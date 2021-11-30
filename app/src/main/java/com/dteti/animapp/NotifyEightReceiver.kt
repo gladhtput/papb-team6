@@ -61,8 +61,8 @@ class NotifyEightReceiver : BroadcastReceiver() {
 
                 val builder = NotificationCompat.Builder(context!!, "NotifyEightAM")
                     .setSmallIcon(R.drawable.ic_animapp)
-                    .setContentTitle("AnimApp")
-                    .setContentText("This morning's anime suggestion: ${anime.title}")
+                    .setContentTitle("Random Anime of the Day")
+                    .setContentText("Tap here to receive your random anime of the day!")
                     .setAutoCancel(true)
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
