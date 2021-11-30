@@ -63,44 +63,48 @@ class AnimeUseCases @Inject constructor(
     }
 
     suspend fun readAnimeById(animeId: Int): AnimeDetails? {
-        val persistedAnime = persistenceService.readAnimeDetailsById(animeId)
+        try {
+            val persistedAnime = persistenceService.readAnimeDetailsById(animeId)
 
-        if (apiService.isAvailable()) {
-            val anime = apiService.getAnimeDetailsById(animeId)
+            if (apiService.isAvailable()) {
+                val anime = apiService.getAnimeDetailsById(animeId)
 
-            return if (anime != null) {
-                AnimeDetails(
-                    anime.id.toInt(),
-                    anime.mainPictureUrl,
-                    UriType.URL,
-                    anime.title,
-                    anime.score,
-                    anime.ageRating,
-                    anime.episodeCount,
-                    anime.airingStatus,
-                    anime.synopsis,
-                    persistedAnime != null
-                )
+                return if (anime != null) {
+                    AnimeDetails(
+                        anime.id.toInt(),
+                        anime.mainPictureUrl,
+                        UriType.URL,
+                        anime.title,
+                        anime.score,
+                        anime.ageRating,
+                        anime.episodeCount,
+                        anime.airingStatus,
+                        anime.synopsis,
+                        persistedAnime != null
+                    )
+                } else {
+                    null
+                }
             } else {
-                null
+                return if (persistedAnime != null) {
+                    AnimeDetails(
+                        persistedAnime.id,
+                        persistedAnime.mainPicturePath,
+                        UriType.PATH,
+                        persistedAnime.title,
+                        persistedAnime.score,
+                        persistedAnime.ageRating,
+                        persistedAnime.episodeCount,
+                        persistedAnime.airingStatus,
+                        persistedAnime.synopsis,
+                        true
+                    )
+                } else {
+                    null
+                }
             }
-        } else {
-            return if (persistedAnime != null) {
-                AnimeDetails(
-                    persistedAnime.id,
-                    persistedAnime.mainPicturePath,
-                    UriType.PATH,
-                    persistedAnime.title,
-                    persistedAnime.score,
-                    persistedAnime.ageRating,
-                    persistedAnime.episodeCount,
-                    persistedAnime.airingStatus,
-                    persistedAnime.synopsis,
-                    true
-                )
-            } else {
-                null
-            }
+        } catch(err: Exception) {
+            return null
         }
     }
 

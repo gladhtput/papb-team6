@@ -2,6 +2,7 @@ package com.dteti.animapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,10 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         setContentView(R.layout.activity_detail)
 
@@ -27,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         detailViewModel.onBackPressed = {
-            onBackPressed()
+            super.onBackPressed()
         }
 
         val backButton = findViewById<ImageView>(R.id.iv_back)
@@ -35,6 +40,7 @@ class DetailActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        Log.d("DetailActivity", "Loading anime details for ID: ${intent.getStringExtra("animeId")}.")
         detailViewModel.animeId = (intent.getStringExtra("animeId") ?: "0").toInt()
     }
 }
