@@ -1,5 +1,5 @@
 # papb-team6
-AnimApp is an app that recommends you animes and you can add it to your favourite if you like it.
+AnimApp is an android app that recommends you animes and you can add them to your favourites collection.
 
 Team members:
 * Firdaus Bisma Suryakusuma (19/444051/TK/49247)
@@ -7,8 +7,7 @@ Team members:
 * Sofyan H B (19/444072/TK/49268)
 
 ## Screenshot Aplikasi
-![image](https://user-images.githubusercontent.com/55144706/136949460-1d133a97-df2c-48f2-bebd-58b0c2c6a1ac.png)
-![image](https://user-images.githubusercontent.com/55144706/136949546-b8c83ee7-29b6-4a04-9697-5c49d38f5484.png)
-![image](https://user-images.githubusercontent.com/55144706/136949596-40f42eb5-d470-4f48-b4a2-90297de30553.png)
-![image](https://user-images.githubusercontent.com/55144706/136949652-e0f47737-e6c4-4f17-8b54-0ca83d6d4862.png)
-
+![image](https://user-images.githubusercontent.com/55144706/144083052-38afce5c-1067-4f5f-a00b-0ee89ca6d311.png)
+![image](https://user-images.githubusercontent.com/55144706/144083536-9aae96ca-9657-4e7e-9b34-33432885b077.png)
+![image](https://user-images.githubusercontent.com/55144706/144083648-f0fc6e67-d7ea-45aa-99ee-289ffa2e1dfc.png)
+![image](https://user-images.githubusercontent.com/55144706/144083580-5c6a8061-4421-430f-a947-d5cd372677c8.png)
